@@ -1,5 +1,5 @@
 import { useReducer, useState } from "react";
-
+import useStore from "../Store/Store";
 function reducer(state, action) {
   switch (action.type) {
     case "yes":
@@ -16,10 +16,18 @@ const Game = () => {
   };
   const [state, dispatch] = useReducer(reducer, initialEmoji);
 
-  const [display, setDisplay] = useState("flex");
-  const [mainText, setMainText] = useState(
-    "Do you want to go on a date with me?"
-  );
+  const {
+    display,
+    setDisplay,
+    mainText,
+    setMainText,
+    noBtnStyles,
+    setNoBtnStyles,
+    counter,
+    setCounter,
+    hideNoBtn,
+    setHideNoBtn,
+  } = useStore();
 
   const handleYes = () => {
     dispatch({
@@ -31,78 +39,51 @@ const Game = () => {
     setMainText("Yeahhhhh!!!!! Letssss Goooooo");
   };
 
-  const [noBtnStyles, setNoBtnStyles] = useState("w-[87px] h-[42px]");
-  const [counter, setCounter] = useState(0);
-  const [hideNoBtn, setHideNoBtn] = useState("");
-
-  const angryEmoji1 = () => {
+  const angryEmoji = (input) => {
     dispatch({
       type: "no",
-      payload:
-        "https://www.animatedimages.org/data/media/2116/animated-angry-smiley-image-0105.gif",
-    });
-  };
-
-  const angryEmoji2 = () => {
-    dispatch({
-      type: "no",
-      payload:
-        "https://www.animatedimages.org/data/media/2116/animated-angry-smiley-image-0097.gif",
-    });
-  };
-
-  const angryEmoji3 = () => {
-    dispatch({
-      type: "no",
-      payload:
-        "https://www.animatedimages.org/data/media/2116/animated-angry-smiley-image-0290.gif",
-    });
-  };
-  const angryEmoji4 = () => {
-    dispatch({
-      type: "no",
-      payload:
-        "https://www.animatedimages.org/data/media/2116/animated-angry-smiley-image-0173.gif",
-    });
-  };
-
-  const angryEmoji5 = () => {
-    dispatch({
-      type: "no",
-      payload:
-        "https://www.animatedimages.org/data/media/2116/animated-angry-smiley-image-0138.gif",
+      payload: input,
     });
   };
 
   const handleNo = () => {
-    if (counter === 0) {
-      setCounter((prevVal) => prevVal + 1);
-      setNoBtnStyles("w-[71px] h-[42px]");
-      setMainText("ohhhhhh comeonn!!!");
-      angryEmoji1();
-    } else if (counter === 1) {
-      setCounter((prevVal) => prevVal + 1);
-      setNoBtnStyles("w-[55px] h-[34px]");
-      setMainText("NOO you are doing it again");
-      angryEmoji2();
-    } else if (counter === 2) {
-      setCounter((prevVal) => prevVal + 1);
-      setNoBtnStyles("w-[39px] h-[26px]");
-      setMainText("againn?? huhh??");
-      angryEmoji3();
-    } else if (counter === 3) {
-      setCounter((prevVal) => prevVal + 1);
-      setNoBtnStyles("w-[23px] h-[18px]");
-      setMainText("Why soo rudee??");
-      angryEmoji4();
-    } else if (counter === 4) {
-      setCounter((prevVal) => prevVal + 1);
-      setNoBtnStyles("w-[0px] h-[0px]");
+    const messages = [
+      {
+        width: "71px",
+        height: "42px",
+        text: "ohhhhhh comeonn!!!",
+        code: "0105",
+      },
+      {
+        width: "55px",
+        height: "34px",
+        text: "NOO you are doing it again",
+        code: "0097",
+      },
+      { width: "39px", height: "26px", text: "againn?? huhh??", code: "0290" },
+      { width: "23px", height: "18px", text: "Why soo rudee??", code: "0173" },
+      {
+        width: "0px",
+        height: "0px",
+        text: "Click the greeen button noww!!",
+        code: "0138",
+      },
+    ];
+
+    if (counter < messages.length) {
+      const { width, height, text, code } = messages[counter];
+      console.log(messages[counter]);
+      setCounter(counter + 1);
+      setNoBtnStyles(`w-[${width}] h-[${height}]`);
+      setMainText(text);
+      angryEmoji(
+        `https://www.animatedimages.org/data/media/2116/animated-angry-smiley-image-${code}.gif`
+      );
+    } else {
       setHideNoBtn("hidden");
-      setMainText("Click the greeen button noww!! ");
-      angryEmoji5();
     }
   };
+
   return (
     <>
       <div className="w-full flex items-center justify-center h-screen px-2 bg-[#111111] text-white">
