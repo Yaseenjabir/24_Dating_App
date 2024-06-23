@@ -49,32 +49,37 @@ const Game = () => {
   const handleNo = () => {
     const messages = [
       {
-        width: "71px",
-        height: "42px",
         text: "ohhhhhh comeonn!!!",
         code: "0105",
+        size: "w-[71px] h-[42px]",
       },
       {
-        width: "55px",
-        height: "34px",
         text: "NOO you are doing it again",
         code: "0097",
+        size: "w-[55px] h-[34px]",
       },
-      { width: "39px", height: "26px", text: "againn?? huhh??", code: "0290" },
-      { width: "23px", height: "18px", text: "Why soo rudee??", code: "0173" },
       {
-        width: "0px",
-        height: "0px",
+        text: "againn?? huhh??",
+        code: "0290",
+        size: "w-[39px] h-[26px]",
+      },
+      {
+        text: "Why soo rudee??",
+        code: "0173",
+        size: "w-[23px] h-[18px]",
+      },
+      {
         text: "Click the greeen button noww!!",
         code: "0138",
+        size: "w-[0px] h-[0px]",
       },
     ];
 
     if (counter < messages.length) {
-      const { width, height, text, code } = messages[counter];
+      const { size, text, code } = messages[counter];
       console.log(messages[counter]);
       setCounter(counter + 1);
-      setNoBtnStyles(`w-[${width}] h-[${height}]`);
+      setNoBtnStyles(size);
       setMainText(text);
       angryEmoji(
         `https://www.animatedimages.org/data/media/2116/animated-angry-smiley-image-${code}.gif`
